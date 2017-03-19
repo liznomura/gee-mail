@@ -1,18 +1,52 @@
 <html>
-	<head>
-		<script src="js/mail-generator.js"></script>
-		<link href="css/style.css" rel="stylesheet" media="screen">
+    <head>
+        <script src="js/mail-generator.js"></script>
+        <link href="css/style.css" rel="stylesheet" media="screen">
     <script>
-      window.onload = function(){
-        // ALL OF YOUR JAVASCRIPT CODE SHOULD GO HERE. 
-        // We have to use window.onload so your JavaScript doesn't execute until the page has loaded and all HTML has been downloaded to your browser
-        
+     window.onload = function(){
+         // ALL OF YOUR JAVASCRIPT CODE SHOULD GO HERE. 
+         // We have to use window.onload so your JavaScript doesn't execute until the page has loaded and all HTML has been downloaded to your browser
+         
+         function displayEmails(emails, index) {
+            var table = document.getElementById('tbody');
+            var row = document.createElement('tr');
+            row.className = ('row');
+
+            var emailSender = document.createElement('td');
+            emailSender.className = ('sender');
+            emailSender.innerHTML = emails.sender;
+            row.appendChild(emailSender);
+
+            var emailSubject = document.createElement('td');
+            emailSubject.class = ('subject');
+            emailSubject.innerHTML = emails.subject;
+            row.appendChild(emailSubject);
+
+            var emailBody = document.createElement('td');
+            emailBody.class = ('body');
+            emailBody.innerHTML = emails.body;
+            row.appendChild(emailBody);
+
+            var emailDate = document.createElement('td');
+            emailDate.class = ('date');
+            emailDate.innerHTML = emails.date;
+            row.appendChild(emailDate);
+            
+            table.appendChild(row);
+         }
+
+         for(var i = 0; i < window.geemails.length; i++) {
+            displayEmails(window.geemails[i], i + 1);
+         }
       };
     </script>
-	</head>
-	<body>
-		<div class="container" id="main">
-			Build Me!
-		</div>
-	</body>
+    </head>
+    <body>
+        <div class="container" id="main">
+            <table>
+             <tbody id="tbody">
+             </tbody>
+         </table>
+        </div>
+    </body>
 </html>
