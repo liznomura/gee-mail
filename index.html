@@ -10,13 +10,13 @@
 
          //inbox count
          var inboxCount = document.getElementById('mailCount');
-         inboxCount.innerHTML = "Inbox Count: " + window.geemails.length;
-
-
+         inboxCount.innerHTML = "Emails: " + window.geemails.length;
+         
          function displayEmails(emails, index) {
             var table = document.getElementById('tbody');
             var row = document.createElement('tr');
             row.className = ('row');
+            row.id = index-1;
 
             var emailSender = document.createElement('td');
             emailSender.className = ('sender');
@@ -31,7 +31,6 @@
             var emailBody = document.createElement('td');
             emailBody.class = ('body');
             emailBody.innerHTML = emails.body;
-            row.appendChild(emailBody);
 
             var emailDate = document.createElement('td');
             emailDate.class = ('date');
@@ -41,26 +40,44 @@
             table.appendChild(row);
          }
 
-         //displays supplied Geemails
          for(var i = 0; i < window.geemails.length; i++) {
             displayEmails(window.geemails[i], i + 1);
          }
-
-         //gets new emails
-         function getNewMail(){
-            var newMail = getNewMessage();
-            window.geemails.push(newMail);
-            inbox(window.geemails[i], i + 1);
-        }
-        
-        //return new message every 10 sec
-         setInterval(getNewMail, 10000);
-
+         
+         function displayContent(index){
+            //display overlay
+            var overlay = document.getElementById('overlay');
+            overlay.className = 'overlay';
+            
+            //get email data
+            var email = window.geemails[index];
+            
+            //put data to box
+            document.getElementById('popupSubject').innerHTML = email.subject;
+            document.getElementById('popupSender').innerHTML = email.sender;
+            document.getElementById('popupDate').innerHTML = email.date;
+            document.getElementById('popupBody').innerHTML = email.body;
+            
+            //add handler to close button
+            document.getElementById('popupClose').onclick = function(){
+               overlay.className = 'none';
+            };
+         }
+         
+         //add action handler
+         var rows = document.getElementsByClassName('row');
+         var len = rows.length;
+         for(var i = 0; i < len; i++){
+            var row = rows[i];
+            row.onclick = function(){
+               displayContent(this.id);
+            };
+         }
       };
     </script>
     </head>
     <body>
-    <div id="sidebar">
+        <div id="sidebar">
     <ul class ="navigation">
     <li class="active"><a href="#">Inbox</a></li>
     <li><a href="#">Sent</a></li>
@@ -68,6 +85,15 @@
     <li style="float:right"><p id="mailCount"></p></li>
     </ul>
     </div>
+      <div id="overlay" class="none">
+         <div class="popup">
+            <div id="popupClose">X</div>
+            <p id="popupSubject"></p>
+            <p id="popupSender"></p>
+            <p id="popupDate"></p>
+            <p id="popupBody"></p>
+         </div>
+      </div>
         <div class="container" id="main">
             <table>
              <tbody id="tbody">
