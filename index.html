@@ -1,18 +1,78 @@
 <html>
-	<head>
-		<script src="js/mail-generator.js"></script>
-		<link href="css/style.css" rel="stylesheet" media="screen">
+    <head>
+        <script src="js/mail-generator.js"></script>
+        <link href="css/style.css" rel="stylesheet" media="screen">
+        <link href="https://fonts.googleapis.com/css?family=Muli" rel="stylesheet">
     <script>
-      window.onload = function(){
-        // ALL OF YOUR JAVASCRIPT CODE SHOULD GO HERE. 
-        // We have to use window.onload so your JavaScript doesn't execute until the page has loaded and all HTML has been downloaded to your browser
+     window.onload = function(){
+         // ALL OF YOUR JAVASCRIPT CODE SHOULD GO HERE. 
+         // We have to use window.onload so your JavaScript doesn't execute until the page has loaded and all HTML has been downloaded to your browser
+
+         //inbox count
+         var inboxCount = document.getElementById('mailCount');
+         inboxCount.innerHTML = "Inbox Count: " + window.geemails.length;
+
+
+         function displayEmails(emails, index) {
+            var table = document.getElementById('tbody');
+            var row = document.createElement('tr');
+            row.className = ('row');
+
+            var emailSender = document.createElement('td');
+            emailSender.className = ('sender');
+            emailSender.innerHTML = emails.sender;
+            row.appendChild(emailSender);
+
+            var emailSubject = document.createElement('td');
+            emailSubject.class = ('subject');
+            emailSubject.innerHTML = emails.subject;
+            row.appendChild(emailSubject);
+
+            var emailBody = document.createElement('td');
+            emailBody.class = ('body');
+            emailBody.innerHTML = emails.body;
+            row.appendChild(emailBody);
+
+            var emailDate = document.createElement('td');
+            emailDate.class = ('date');
+            emailDate.innerHTML = emails.date;
+            row.appendChild(emailDate);
+            
+            table.appendChild(row);
+         }
+
+         //displays supplied Geemails
+         for(var i = 0; i < window.geemails.length; i++) {
+            displayEmails(window.geemails[i], i + 1);
+         }
+
+         //gets new emails
+         function getNewMail(){
+            var newMail = getNewMessage();
+            window.geemails.push(newMail);
+            inbox(window.geemails[i], i + 1);
+        }
         
+        //return new message every 10 sec
+         setInterval(getNewMail, 10000);
+
       };
     </script>
-	</head>
-	<body>
-		<div class="container" id="main">
-			Build Me!
-		</div>
-	</body>
+    </head>
+    <body>
+    <div id="sidebar">
+    <ul class ="navigation">
+    <li class="active"><a href="#">Inbox</a></li>
+    <li><a href="#">Sent</a></li>
+    <li><a href="#">Trash</a></li>
+    <li style="float:right"><p id="mailCount"></p></li>
+    </ul>
+    </div>
+        <div class="container" id="main">
+            <table>
+             <tbody id="tbody">
+             </tbody>
+         </table>
+        </div>
+    </body>
 </html>

@@ -1,0 +1,44 @@
+body, a, a:hover {
+    cursor:url(http://media.tumblr.com/tumblr_lqs4idHqTZ1qfoi4t.png), auto
+}
+
+html, body {
+    height: 100%; 
+    margin: 0;
+    padding: 0;
+    font-family: 'Muli', sans-serif;
+    background-color: #fff;
+}
+
+ul {
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+	overflow: hidden;
+	background-color: #ccc;
+}
+
+li {
+	float: left;
+}
+
+li a {
+	display: block;
+	color: #000;
+	text-align: center;
+	padding: 5px 10px;
+	text-decoration: none;
+}
+
+li a:hover {
+	background-color: #fff;
+}
+
+#mailCount {
+	float: right;
+}
+
+.active {
+	background-color: #ffcccc;
+	font-weight: bold;
+}

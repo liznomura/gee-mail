@@ -45,5 +45,5 @@
   //load intial GeeMail data to window object
   window.geemails = [];
   window.getNewMessage = getNewMessage;
-  loadGeeMails();	
+  loadGeeMails(); 
 })();
