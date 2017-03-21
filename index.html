@@ -11,7 +11,8 @@
          //inbox count
          var inboxCount = document.getElementById('mailCount');
          inboxCount.innerHTML = "Emails: " + window.geemails.length;
-         
+
+         //generating inbox
          function displayEmails(emails, index) {
             var table = document.getElementById('tbody');
             var row = document.createElement('tr');
@@ -36,8 +37,20 @@
             emailDate.class = ('date');
             emailDate.innerHTML = emails.date;
             row.appendChild(emailDate);
-            
-            table.appendChild(row);
+
+            //putting new emails at the top using insertBefore
+            var rowCount = table.childNodes.length;
+
+            if (rowCount > 0) {
+                table.insertBefore(row, table.childNodes[0]);
+            }
+            else {
+                table.appendChild(row);
+            }
+            //add handler to row
+            row.onclick = function(){
+               displayContent(this.id);
+            };
          }
 
          for(var i = 0; i < window.geemails.length; i++) {
@@ -52,7 +65,7 @@
             //get email data
             var email = window.geemails[index];
             
-            //put data to box
+            //put data to popup
             document.getElementById('popupSubject').innerHTML = email.subject;
             document.getElementById('popupSender').innerHTML = email.sender;
             document.getElementById('popupDate').innerHTML = email.date;
@@ -63,38 +76,46 @@
                overlay.className = 'none';
             };
          }
-         
-         //add action handler
-         var rows = document.getElementsByClassName('row');
-         var len = rows.length;
-         for(var i = 0; i < len; i++){
-            var row = rows[i];
-            row.onclick = function(){
-               displayContent(this.id);
-            };
-         }
+                  
+         //put new email each interval
+         var interval = window.setInterval(function(){
+            //create new email (from mail-generator.js)
+            var email = getNewMessage();
+            //push new email
+            window.geemails.push(email);
+            //get new length of array
+            var len = window.geemails.length;
+            //put email in table on last row
+            displayEmails(email, len);
+            //update inbox count (every 15 s)
+            inboxCount.innerHTML = "Emails: " + len;
+         }, 15000);
       };
     </script>
     </head>
     <body>
-        <div id="sidebar">
-    <ul class ="navigation">
+    <img height="125px" align="left" src="http://i1361.photobucket.com/albums/r674/aurelionsol/Gmail_Icon_zpskfif2qto.png">
+    <br />
+    <h1>GEEMAIL</h1>
+    <br />
+    <div id="nav">
+    <ul>
     <li class="active"><a href="#">Inbox</a></li>
     <li><a href="#">Sent</a></li>
     <li><a href="#">Trash</a></li>
-    <li style="float:right"><p id="mailCount"></p></li>
     </ul>
+    <p id="mailCount"></p>
     </div>
       <div id="overlay" class="none">
          <div class="popup">
-            <div id="popupClose">X</div>
+            <div id="popupClose"><img src="http://i1361.photobucket.com/albums/r674/aurelionsol/tumblr_inline_nl8j09DBeF1ry72eo_zpshwfqahmf.gif"></div>
             <p id="popupSubject"></p>
             <p id="popupSender"></p>
             <p id="popupDate"></p>
             <p id="popupBody"></p>
          </div>
       </div>
-        <div class="container" id="main">
+        <div id="main" class="container">
             <table>
              <tbody id="tbody">
              </tbody>
